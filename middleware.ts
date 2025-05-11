@@ -1,12 +1,12 @@
 import { authMiddleware } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
-// Define your public routes
+// Define your public routes - using proper path-to-regexp patterns
 const publicPaths = [
   '/',
-  '/sign-in*',
-  '/sign-up*',
-  '/api/public*',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/api/public(.*)',
 ];
 
 export default authMiddleware({
@@ -24,9 +24,12 @@ export default authMiddleware({
     
     // If the user is not signed in and the route is not public, redirect to sign-in
     if (!auth.userId && !publicPaths.some(path => {
-      const pathWithoutWildcard = path.replace('*', '');
-      return req.nextUrl.pathname === pathWithoutWildcard || 
-             req.nextUrl.pathname.startsWith(pathWithoutWildcard) && path.endsWith('*');
+      if (path === '/') {
+        return req.nextUrl.pathname === '/';
+      }
+      // For pattern matching like '/sign-in(.*)' we just check if the path starts with the base part
+      const basePath = path.split('(')[0];
+      return req.nextUrl.pathname.startsWith(basePath);
     })) {
       const signInUrl = new URL('/', req.url);
       return NextResponse.redirect(signInUrl);
