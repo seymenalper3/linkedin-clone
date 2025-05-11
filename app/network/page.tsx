@@ -49,32 +49,44 @@ async function NetworkPage() {
         
         <TabsContent value="followers">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {followers.length > 0 ? (
+            {Array.isArray(followers) && followers.length > 0 ? (
               followers.map((follower: any) => (
                 <UserCard 
-                  key={follower._id} 
-                  userId={follower.follower} 
+                  key={follower._id || `follower-${Math.random()}`} 
+                  userId={follower.follower || userId} 
                   relationship="follower"
                 />
               ))
             ) : (
-              <p className="text-gray-500">You don't have any followers yet.</p>
+              <>
+                <p className="text-gray-500 mb-4">You don't have any followers yet.</p>
+                <UserCard 
+                  userId={userId || "example-user-id"} 
+                  relationship="none"
+                />
+              </>
             )}
           </div>
         </TabsContent>
         
         <TabsContent value="following">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {following.length > 0 ? (
+            {Array.isArray(following) && following.length > 0 ? (
               following.map((followingUser: any) => (
                 <UserCard 
-                  key={followingUser._id} 
-                  userId={followingUser.following} 
+                  key={followingUser._id || `following-${Math.random()}`} 
+                  userId={followingUser.following || userId} 
                   relationship="following"
                 />
               ))
             ) : (
-              <p className="text-gray-500">You're not following anyone yet.</p>
+              <>
+                <p className="text-gray-500 mb-4">You're not following anyone yet.</p>
+                <UserCard 
+                  userId={userId || "example-user-id"} 
+                  relationship="none"
+                />
+              </>
             )}
           </div>
         </TabsContent>

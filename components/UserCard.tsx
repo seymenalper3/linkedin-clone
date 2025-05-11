@@ -16,12 +16,12 @@ interface UserCardProps {
 async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
   try {
     // In a real app, you'd have an API to fetch user profile by userId
-    // This is a placeholder implementation
+    // For now, we'll create a profile with the user ID info we have
     return { 
       id: userId,
       firstName: `User`,
       lastName: `${userId.slice(-4)}`,
-      imageUrl: "https://github.com/shadcn.png",
+      imageUrl: `https://ui-avatars.com/api/?name=User+${userId.slice(-4)}&background=random`,
     } as UserProfile;
   } catch (error) {
     console.error("Error fetching user profile:", error);
