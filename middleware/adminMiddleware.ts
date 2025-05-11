@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
-import connectDB from "@/mongodb/db";
-import { Admin } from "@/mongodb/models/admin";
 
 export async function adminMiddleware(req: NextRequest) {
   const { userId } = auth();
@@ -11,24 +9,12 @@ export async function adminMiddleware(req: NextRequest) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  try {
-    // Veritabanına bağlan
-    await connectDB();
-
-    // Kullanıcının admin olup olmadığını kontrol et
-    const isAdmin = await Admin.isUserAdmin(userId);
-
-    // Admin değilse ana sayfaya yönlendir
-    if (!isAdmin) {
-      console.log(`User ${userId} attempted to access admin panel but is not an admin`);
-      return NextResponse.redirect(new URL("/", req.url));
-    }
-
-    // Admin ise devam et
+  // Setup sayfasına erişime izin ver
+  if (req.nextUrl.pathname === "/admin/setup") {
     return NextResponse.next();
-    
-  } catch (error) {
-    console.error("Error in admin middleware:", error);
-    return NextResponse.redirect(new URL("/", req.url));
   }
+
+  // Diğer admin sayfaları için admin kontrolünü sayfa içinde yapacağız
+  // Middleware'de sadece giriş kontrolü yapıyoruz
+  return NextResponse.next();
 }

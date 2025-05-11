@@ -1,7 +1,9 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import connectDB from "@/mongodb/db";
+import { Admin } from "@/mongodb/models/admin";
 
 export default async function AdminLayout({
   children,
@@ -11,6 +13,33 @@ export default async function AdminLayout({
   const { userId } = auth();
 
   if (!userId) {
+    redirect("/");
+  }
+
+  // Setup sayfasına özel durum - database'de hiç admin yoksa setup sayfasına izin ver
+  const isSetupPage = false; // Sadece setup sayfasında true olacak şekilde her sayfada kontrol edeceğiz
+  if (isSetupPage) {
+    try {
+      await connectDB();
+      const adminCount = await Admin.countDocuments();
+      if (adminCount === 0) {
+        return <>{children}</>;
+      }
+    } catch (error) {
+      console.error("Error checking admin count:", error);
+    }
+  }
+
+  // Admin kontrolü
+  try {
+    await connectDB();
+    const isAdmin = await Admin.isUserAdmin(userId);
+
+    if (!isAdmin) {
+      redirect("/");
+    }
+  } catch (error) {
+    console.error("Error checking admin status:", error);
     redirect("/");
   }
 
