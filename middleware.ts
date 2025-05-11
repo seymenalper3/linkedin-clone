@@ -1,29 +1,46 @@
-import { authMiddleware } from "@clerk/nextjs";
 import { NextRequest, NextResponse } from "next/server";
+import { getAuth } from "@clerk/nextjs/server";
 import { adminMiddleware } from "./middleware/adminMiddleware";
 
-// Clerk's authMiddleware handles auth for all routes
-// This allows auth() function to work in your application
-export default authMiddleware({
-  // Routes that can be accessed without authentication
-  publicRoutes: ["/", "/sign-in", "/sign-up"],
+// Simple middleware for authentication
+export default async function middleware(req: NextRequest) {
+  // Admin panel routes
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    return adminMiddleware(req);
+  }
+  
+  // For all other routes, we'll use a simple auth check
+  // without using Clerk's middleware directly
+  const { userId } = getAuth(req);
+  
+  // Protected routes that require authentication
+  const protectedPaths = ['/messages', '/network'];
+  
+  // Check if the path is in our protected paths
+  const isProtectedPath = protectedPaths.some(path => 
+    req.nextUrl.pathname.startsWith(path)
+  );
+  
+  // If it's a protected path but no user, redirect to home
+  if (isProtectedPath && !userId) {
+    const signInUrl = new URL('/', req.url);
+    return NextResponse.redirect(signInUrl);
+  }
+  
+  return NextResponse.next();
+}
 
-  // Routes that can always be accessed, and have
-  // no authentication information
-  ignoredRoutes: ["/api/public"],
-
-  // Function to run before the auth middleware
-  beforeAuth: (req) => {
-    // Admin panel routes
-    if (req.nextUrl.pathname.startsWith('/admin')) {
-      return adminMiddleware(req);
-    }
-    return NextResponse.next();
-  },
-});
-
-// We need to add this boilerplate to make authMiddleware work correctly with Next.js
-// https://clerk.com/docs/nextjs/middleware
+// Configure paths that the middleware applies to
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    // Skip Next.js static files and assets
+    "/((?!_next/|public/|favicon.ico).*)",
+    // Also match API routes
+    "/api/:path*",
+    // Admin routes
+    "/admin/:path*",
+    // Protected user routes
+    "/messages/:path*",
+    "/network/:path*"
+  ],
 };
