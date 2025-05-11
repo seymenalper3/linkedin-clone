@@ -1,5 +1,4 @@
 import { auth, currentUser, clerkClient } from "@clerk/nextjs/server";
-import type { User } from "@clerk/nextjs/api";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -35,7 +34,7 @@ async function UserPage({ params }: UserPageProps) {
   const isOwnProfile = userId === user_id;
 
   // Get user data from Clerk
-  let profileUser: User | null = null;
+  let profileUser: any = null;
   try {
     profileUser = await clerkClient.users.getUser(user_id);
   } catch (error) {
