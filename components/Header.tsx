@@ -36,7 +36,7 @@ async function Header() {
       </div>
 
       <div className="flex items-center space-x-4 px-6">
-        <Link href="" className="icon">
+        <Link href="/" className="icon">
           <HomeIcon className="h-5 " />
           <p>Home</p>
         </Link>
@@ -46,9 +46,9 @@ async function Header() {
           <p>Network</p>
         </Link>
 
-        <Link href="" className="icon hidden md:flex">
+        <Link href="/users" className="icon hidden md:flex">
           <Briefcase className="h-5" />
-          <p>Jobs</p>
+          <p>Find People</p>
         </Link>
 
         <Link href="/messages" className="icon">
