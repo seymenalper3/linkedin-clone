@@ -60,11 +60,11 @@ export default async function AdminsManagement() {
               id="userId"
               name="userId"
               required
-              placeholder="Clerk kullanıcı ID'si (user_xxxxx)"
+              placeholder="Clerk kullanıcı ID&apos;si (user_xxxxx)"
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <p className="mt-1 text-sm text-gray-500">
-              Bu, Clerk tarafından oluşturulan kullanıcı ID'sidir (örn: user_2wx7R3ZDaVmG0e1fGCZDvjxWxgv)
+              Bu, Clerk tarafından oluşturulan kullanıcı ID&apos;sidir (örn: user_2wx7R3ZDaVmG0e1fGCZDvjxWxgv)
             </p>
           </div>
           
