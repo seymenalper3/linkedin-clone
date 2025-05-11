@@ -9,7 +9,10 @@ export default function middleware(req: NextRequest) {
   }
 
   // For all other routes, use Clerk's middleware
-  return clerkMiddleware()(req);
+  return clerkMiddleware({
+    publicRoutes: ['/'],
+    ignoredRoutes: ['/api/public']
+  })(req);
 }
 
 export const config = {
