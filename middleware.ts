@@ -1,46 +1,43 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getAuth } from "@clerk/nextjs/server";
-import { adminMiddleware } from "./middleware/adminMiddleware";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-// Simple middleware for authentication
-export default async function middleware(req: NextRequest) {
-  // Admin panel routes
-  if (req.nextUrl.pathname.startsWith('/admin')) {
-    return adminMiddleware(req);
+// Routes that don't require authentication
+const publicRoutes = [
+  '/',
+  '/sign-in*',
+  '/sign-up*',
+  '/api/public*',
+];
+
+// Create route matcher to check if path should be public
+const isPublic = createRouteMatcher(publicRoutes);
+
+export default clerkMiddleware((auth, req) => {
+  // If the route is public or it's an asset, let the request pass through
+  if (isPublic(req.url) || req.nextUrl.pathname.includes('.')) {
+    return NextResponse.next();
   }
-  
-  // For all other routes, we'll use a simple auth check
-  // without using Clerk's middleware directly
-  const { userId } = getAuth(req);
-  
-  // Protected routes that require authentication
-  const protectedPaths = ['/messages', '/network'];
-  
-  // Check if the path is in our protected paths
-  const isProtectedPath = protectedPaths.some(path => 
-    req.nextUrl.pathname.startsWith(path)
-  );
-  
-  // If it's a protected path but no user, redirect to home
-  if (isProtectedPath && !userId) {
+
+  // Admin panel routes - check if they are admin in the server component
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.next();
+  }
+
+  // For protected routes, check if the user is authenticated
+  if (!auth.userId) {
     const signInUrl = new URL('/', req.url);
     return NextResponse.redirect(signInUrl);
   }
-  
-  return NextResponse.next();
-}
 
-// Configure paths that the middleware applies to
+  return NextResponse.next();
+});
+
+// Configure routes that the middleware applies to
 export const config = {
   matcher: [
-    // Skip Next.js static files and assets
-    "/((?!_next/|public/|favicon.ico).*)",
-    // Also match API routes
-    "/api/:path*",
-    // Admin routes
-    "/admin/:path*",
-    // Protected user routes
-    "/messages/:path*",
-    "/network/:path*"
+    // Match all routes except static assets
+    '/((?!_next/|public/|favicon.ico|images/|assets/).*)',
+    // Match API routes
+    '/api/((?!public/).*)',
   ],
 };
