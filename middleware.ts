@@ -9,6 +9,7 @@ const publicPaths = [
   '/api/public(.*)',
   '/admin/setup', // Admin setup page needs to be accessible
   '/admin/setup-direct', // Alternative admin setup page
+  '/api/debug-admin', // Debug endpoint for admin creation
 ];
 
 export default authMiddleware({
