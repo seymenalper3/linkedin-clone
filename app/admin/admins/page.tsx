@@ -12,7 +12,7 @@ export default async function AdminsManagement() {
   const { userId } = auth();
   
   // Tüm adminleri getir
-  let admins = [];
+  let admins: any[] = [];
   try {
     admins = await Admin.getAllAdmins();
   } catch (error) {
@@ -20,7 +20,7 @@ export default async function AdminsManagement() {
   }
 
   // Admin kullanıcı detaylarını getir
-  const adminDetails = [];
+  const adminDetails: any[] = [];
   for (const admin of admins) {
     try {
       const user = await clerkClient.users.getUser(admin.userId);
