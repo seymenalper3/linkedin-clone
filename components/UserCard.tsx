@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { useUser } from "@clerk/nextjs";
-import { UserProfile } from "@clerk/nextjs/server";
+// Removed problematic import
 import { Loader2, MessageSquare, UserPlus, UserMinus } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,7 +13,14 @@ interface UserCardProps {
   relationship: "follower" | "following" | "none";
 }
 
-async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
+interface UserProfileData {
+  id: string;
+  firstName?: string;
+  lastName?: string;
+  imageUrl?: string;
+}
+
+async function fetchUserProfile(userId: string): Promise<UserProfileData | null> {
   try {
     // In a real app, you'd have an API to fetch user profile by userId
     // For now, we'll create a profile with the user ID info we have
@@ -22,7 +29,7 @@ async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
       firstName: `User`,
       lastName: `${userId.slice(-4)}`,
       imageUrl: `https://ui-avatars.com/api/?name=User+${userId.slice(-4)}&background=random`,
-    } as UserProfile;
+    };
   } catch (error) {
     console.error("Error fetching user profile:", error);
     return null;
@@ -31,7 +38,7 @@ async function fetchUserProfile(userId: string): Promise<UserProfile | null> {
 
 const UserCard = ({ userId, relationship }: UserCardProps) => {
   const { user, isLoaded } = useUser();
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [followLoading, setFollowLoading] = useState(false);
   const [isFollowing, setIsFollowing] = useState(relationship === "following");
