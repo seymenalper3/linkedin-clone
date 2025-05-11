@@ -78,9 +78,9 @@ export default async function UsersManagement() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${user.banned ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
-                      {user.banned ? 'Yasaklı' : 'Aktif'}
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                      ${(user.publicMetadata as any)?.active === false ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
+                      {(user.publicMetadata as any)?.active === false ? 'Devre Dışı' : 'Aktif'}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -91,9 +91,14 @@ export default async function UsersManagement() {
                         </Button>
                       </Link>
                       <form action={`/api/admin/users/${user.id}/toggle-ban`} method="POST">
-                        <Button type="submit" variant="outline" size="sm" className={user.banned ? "text-green-600" : "text-red-600"}>
-                          {user.banned ? <UserCheck size={16} className="mr-1" /> : <UserX size={16} className="mr-1" />}
-                          {user.banned ? 'Ban Kaldır' : 'Yasakla'}
+                        <Button
+                          type="submit"
+                          variant="outline"
+                          size="sm"
+                          className={(user.publicMetadata as any)?.active === false ? "text-green-600" : "text-red-600"}
+                        >
+                          {(user.publicMetadata as any)?.active === false ? <UserCheck size={16} className="mr-1" /> : <UserX size={16} className="mr-1" />}
+                          {(user.publicMetadata as any)?.active === false ? 'Aktifleştir' : 'Devre Dışı Bırak'}
                         </Button>
                       </form>
                       <Button variant="outline" size="sm" className="text-blue-600">

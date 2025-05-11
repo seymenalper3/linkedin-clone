@@ -27,15 +27,23 @@ export async function POST(
 
     // Kullanıcı bilgilerini al
     const user = await clerkClient.users.getUser(targetUserId);
-    
-    // Kullanıcının ban durumunu değiştir
+
+    // Kullanıcının etkin durumunu kontrol et
+    const currentlyActive = user.publicMetadata?.active !== false;
+
+    // Kullanıcının aktif durumunu değiştir - publicMetadata içinde 'active' alanını kullanıyoruz
     const updatedUser = await clerkClient.users.updateUser(targetUserId, {
-      banned: !user.banned,
+      publicMetadata: {
+        ...user.publicMetadata,
+        active: !currentlyActive
+      },
     });
 
-    return NextResponse.json({ 
-      message: updatedUser.banned ? "Kullanıcı yasaklandı" : "Kullanıcı yasağı kaldırıldı", 
-      user: updatedUser 
+    const isNowActive = (updatedUser.publicMetadata as any)?.active !== false;
+
+    return NextResponse.json({
+      message: isNowActive ? "Kullanıcı aktifleştirildi" : "Kullanıcı devre dışı bırakıldı",
+      user: updatedUser
     });
   } catch (error) {
     console.error("Error toggling user ban status:", error);
