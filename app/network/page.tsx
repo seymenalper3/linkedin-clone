@@ -18,12 +18,15 @@ async function NetworkPage() {
   }
 
   // Fetch followers and following from the API routes we already have
+  const baseUrl = process.env.NEXT_PUBLIC_URL || 
+    (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3002');
+    
   const followersRes = await fetch(
-    `${process.env.NEXT_PUBLIC_URL || ""}/api/followers?user_id=${userId}`,
+    `${baseUrl}/api/followers?user_id=${userId}`,
     { cache: "no-store" }
   );
   const followingRes = await fetch(
-    `${process.env.NEXT_PUBLIC_URL || ""}/api/following?user_id=${userId}`,
+    `${baseUrl}/api/following?user_id=${userId}`,
     { cache: "no-store" }
   );
 
