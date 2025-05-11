@@ -5,7 +5,7 @@ import {
   generateBlobSASQueryParameters,
 } from "@azure/storage-blob";
 
-export const containerName = "posts";
+export const containerName = process.env.AZURE_BLOB_CONTAINER || "uploads";
 
 const accountName = process.env.AZURE_STORAGE_NAME;
 const accountKey = process.env.AZURE_STORAGE_ACCOUNT_KEY;
