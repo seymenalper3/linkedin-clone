@@ -1,20 +1,24 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server';
 
-// Routes that don't require authentication
-const publicRoutes = [
+// Define your public routes
+const publicPaths = [
   '/',
   '/sign-in*',
   '/sign-up*',
   '/api/public*',
 ];
 
-// Create route matcher to check if path should be public
-const isPublic = createRouteMatcher(publicRoutes);
-
 export default clerkMiddleware((auth, req) => {
+  // Check if the path is in our public paths list
+  const isPublic = publicPaths.some(path => {
+    const pathWithoutWildcard = path.replace('*', '');
+    return req.nextUrl.pathname === pathWithoutWildcard || 
+           req.nextUrl.pathname.startsWith(pathWithoutWildcard) && path.endsWith('*');
+  });
+
   // If the route is public or it's an asset, let the request pass through
-  if (isPublic(req.url) || req.nextUrl.pathname.includes('.')) {
+  if (isPublic || req.nextUrl.pathname.includes('.')) {
     return NextResponse.next();
   }
 
