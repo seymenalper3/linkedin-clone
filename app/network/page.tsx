@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { UserPlus } from "lucide-react";
 import FollowButton from "@/components/FollowButton";
 import { redirect } from "next/navigation";
+import connectDB from "@/mongodb/db";
+import { Followers } from "@/mongodb/models/followers";
 
 async function NetworkPage({
   searchParams,
@@ -36,26 +38,12 @@ async function NetworkPage({
     redirect(`/users/${connectWith}`);
   }
 
-  // Fetch followers and following directly from the database
-  // On server components, we need to handle request URLs carefully
-  // Use origin for proper URL construction
-  const origin = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NODE_ENV === 'development'
-      ? 'http://localhost:3000'
-      : '';
+  // Connect to the database and fetch followers/following directly
+  await connectDB();
 
-  const followersRes = await fetch(
-    `${origin}/api/followers?user_id=${userId}`,
-    { cache: "no-store" }
-  );
-  const followingRes = await fetch(
-    `${origin}/api/following?user_id=${userId}`,
-    { cache: "no-store" }
-  );
-
-  const followers = await followersRes.json();
-  const following = await followingRes.json();
+  // Directly use the model methods instead of making API calls
+  const followers = await Followers.getAllFollowers(userId);
+  const following = await Followers.getAllFollowing(userId);
 
   // Fetch user information for followers and following
   const followerUsers = [];
