@@ -25,7 +25,10 @@ async function UsersPage() {
   });
 
   // Filter out the current user
-  const otherUsers = users.filter((u) => u.id !== userId);
+  // Make sure users is an array before filtering
+  const otherUsers = Array.isArray(users) 
+    ? users.filter((u) => u.id !== userId)
+    : (users?.data?.filter((u) => u.id !== userId) || []);
 
   return (
     <div className="bg-white rounded-lg border p-6 mt-5">
