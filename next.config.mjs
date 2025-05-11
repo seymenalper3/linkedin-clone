@@ -14,6 +14,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "linkedinclone.blob.core.windows.net",
       },
+      {
+        protocol: "https",
+        hostname: "linkedinblobstorage.blob.core.windows.net",
+      },
     ],
   },
 };
