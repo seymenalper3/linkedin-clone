@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { clerkMiddleware, auth } from "@clerk/nextjs/server";
 import { adminMiddleware } from "./middleware/adminMiddleware";
 
 export default function middleware(req: NextRequest) {
@@ -8,11 +7,8 @@ export default function middleware(req: NextRequest) {
     return adminMiddleware(req);
   }
 
-  // For all other routes, use Clerk's middleware
-  return clerkMiddleware({
-    publicRoutes: ['/'],
-    ignoredRoutes: ['/api/public']
-  })(req);
+  // For other routes, just pass through
+  return NextResponse.next();
 }
 
 export const config = {
