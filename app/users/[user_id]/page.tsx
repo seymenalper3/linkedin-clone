@@ -46,7 +46,7 @@ async function UserPage({ params }: UserPageProps) {
     return (
       <div className="bg-white rounded-lg border p-6 mt-5">
         <h1 className="text-2xl font-bold mb-4">User not found</h1>
-        <p>The user you're looking for doesn't exist or has been removed.</p>
+        <p>The user you&apos;re looking for doesn&apos;t exist or has been removed.</p>
         <Link href="/users">
           <Button className="mt-4">Back to Users</Button>
         </Link>
