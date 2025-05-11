@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import connectDB from "@/mongodb/db";
 import { Admin } from "@/mongodb/models/admin";

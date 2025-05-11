@@ -1,11 +1,11 @@
 import React from 'react';
 import { Admin } from '@/mongodb/models/admin';
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs";
 import connectDB from '@/mongodb/db';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Trash2, UserPlus } from "lucide-react";
-import { auth } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs";
 
 export default async function AdminsManagement() {
   await connectDB();

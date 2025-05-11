@@ -1,21 +1,15 @@
-import { authMiddleware } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { adminMiddleware } from "./middleware/adminMiddleware";
 
-// This middleware executes in the order defined
-export default authMiddleware({
-  // Routes that can be accessed while signed out
-  publicRoutes: ["/", "/api/webhook"],
+// Simple middleware that just handles admin routes
+export default function middleware(req: NextRequest) {
+  // Admin panel routes
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    return adminMiddleware(req);
+  }
 
-  // Custom middleware to run before Clerk's auth middleware
-  beforeAuth: (req) => {
-    // Admin panel routes
-    if (req.nextUrl.pathname.startsWith('/admin')) {
-      return adminMiddleware(req);
-    }
-    return NextResponse.next();
-  },
-});
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [

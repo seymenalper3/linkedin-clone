@@ -1,5 +1,5 @@
 import React from 'react';
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { UserCheck, UserX, Mail } from "lucide-react";

@@ -3,7 +3,7 @@ import { Admin } from '@/mongodb/models/admin';
 import { Post } from '@/mongodb/models/post';
 import { Followers } from '@/mongodb/models/followers';
 import connectDB from '@/mongodb/db';
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs";
 
 // Kullanıcı sayısını gösteren kart bileşeni
 const StatCard = ({ title, value, description }: { title: string; value: number | string; description: string }) => (
