@@ -7,6 +7,8 @@ const publicPaths = [
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/public(.*)',
+  '/admin/setup', // Admin setup page needs to be accessible
+  '/admin/setup-direct', // Alternative admin setup page
 ];
 
 export default authMiddleware({
