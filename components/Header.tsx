@@ -41,7 +41,7 @@ async function Header() {
           <p>Home</p>
         </Link>
 
-        <Link href="" className="icon hidden md:flex">
+        <Link href="/network" className="icon hidden md:flex">
           <UsersIcon className="h-5" />
           <p>Network</p>
         </Link>
@@ -51,7 +51,7 @@ async function Header() {
           <p>Jobs</p>
         </Link>
 
-        <Link href="" className="icon">
+        <Link href="/messages" className="icon">
           <MessagesSquare className="h-5" />
           <p>Messaging</p>
         </Link>

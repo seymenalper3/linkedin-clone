@@ -68,6 +68,13 @@ async function UserInformation({ posts }: { posts: IPostDocument[] }) {
         <p className="font-semibold text-gray-400">Comments</p>
         <p className="text-blue-400">{userComments.length}</p>
       </div>
+
+      <div className="flex justify-between w-full px-4 text-sm">
+        <p className="font-semibold text-gray-400">Network</p>
+        <p className="text-blue-400">
+          <a href="/network" className="hover:underline">View</a>
+        </p>
+      </div>
     </div>
   );
 }
