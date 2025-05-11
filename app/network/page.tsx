@@ -37,13 +37,12 @@ async function NetworkPage({
   }
 
   // Fetch followers and following directly from the database
-  const baseUrl = "http://localhost:3002";
   const followersRes = await fetch(
-    `${baseUrl}/api/followers?user_id=${userId}`,
+    `/api/followers?user_id=${userId}`,
     { cache: "no-store" }
   );
   const followingRes = await fetch(
-    `${baseUrl}/api/following?user_id=${userId}`,
+    `/api/following?user_id=${userId}`,
     { cache: "no-store" }
   );
 
