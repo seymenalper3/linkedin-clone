@@ -38,8 +38,8 @@ export default function AdminSetup() {
       setTimeout(() => {
         router.push('/admin');
       }, 2000);
-    } catch (error) {
-      setError(error.message);
+    } catch (error: any) {
+      setError(error?.message || 'Bir hata oluştu');
     } finally {
       setIsLoading(false);
     }
