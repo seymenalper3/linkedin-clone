@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { clerkMiddleware, auth } from "@clerk/nextjs/server";
 import { adminMiddleware } from "./middleware/adminMiddleware";
 
-export default function middleware(req) {
+export default function middleware(req: NextRequest) {
   // Admin panel routes
   if (req.nextUrl.pathname.startsWith('/admin')) {
     return adminMiddleware(req);
