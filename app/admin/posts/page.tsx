@@ -12,7 +12,7 @@ export default async function PostsManagement() {
   await connectDB();
   
   // Tüm postları getir
-  let posts = [];
+  let posts: any[] = [];
   try {
     posts = await Post.getAllPosts();
   } catch (error) {
