@@ -1,6 +1,6 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import connectDB from "@/mongodb/db";
 import { Admin } from "@/mongodb/models/admin";
 
