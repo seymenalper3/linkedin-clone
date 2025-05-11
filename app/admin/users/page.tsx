@@ -7,9 +7,10 @@ import Link from "next/link";
 
 export default async function UsersManagement() {
   // Clerk API'den tüm kullanıcıları getir
-  let users = [];
+  let users: any[] = [];
   try {
-    users = await clerkClient.users.getUserList();
+    const usersResponse = await clerkClient.users.getUserList();
+    users = usersResponse.data;
   } catch (error) {
     console.error("Error fetching users:", error);
   }

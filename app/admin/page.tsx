@@ -20,8 +20,8 @@ export default async function AdminDashboard() {
   // Toplam kullanıcı sayısını al
   let totalUsers = 0;
   try {
-    const users = await clerkClient.users.getUserList();
-    totalUsers = users.length;
+    const usersResponse = await clerkClient.users.getUserList();
+    totalUsers = usersResponse.data.length;
   } catch (error) {
     console.error("Error fetching users:", error);
   }
