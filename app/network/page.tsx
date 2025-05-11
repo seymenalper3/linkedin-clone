@@ -129,7 +129,7 @@ async function NetworkPage({
             ) : (
               <>
                 <div className="col-span-2">
-                  <p className="text-gray-500 mb-4">You don't have any followers yet.</p>
+                  <p className="text-gray-500 mb-4">You don&apos;t have any followers yet.</p>
                   <Link href="/users">
                     <Button className="bg-[#0B63C4]">Find People</Button>
                   </Link>
@@ -173,7 +173,7 @@ async function NetworkPage({
             ) : (
               <>
                 <div className="col-span-2">
-                  <p className="text-gray-500 mb-4">You're not following anyone yet.</p>
+                  <p className="text-gray-500 mb-4">You&apos;re not following anyone yet.</p>
                   <Link href="/users">
                     <Button className="bg-[#0B63C4]">Find People</Button>
                   </Link>

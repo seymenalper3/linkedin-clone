@@ -129,7 +129,7 @@ async function UserPage({ params }: UserPageProps) {
             <h2 className="text-xl font-semibold mb-2">About</h2>
             <p className="text-gray-700">
               {profileUser.publicMetadata?.bio as string || 
-                `This is ${profileUser.firstName}'s profile on LinkedIn Clone.`}
+                `This is ${profileUser.firstName}&apos;s profile on LinkedIn Clone.`}
             </p>
           </div>
         </div>

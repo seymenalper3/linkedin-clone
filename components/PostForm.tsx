@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { ImageIcon, XIcon } from "lucide-react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 function PostForm() {
   const ref = useRef<HTMLFormElement>(null);
@@ -88,8 +89,13 @@ function PostForm() {
         </div>
 
         {preview && (
-          <div className="mt-2">
-            <img src={preview} alt="Preview" className="w-full object-cover" />
+          <div className="mt-2 relative w-full h-64">
+            <Image
+              src={preview}
+              alt="Preview"
+              fill
+              className="object-contain"
+            />
           </div>
         )}
 
