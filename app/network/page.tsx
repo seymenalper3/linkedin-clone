@@ -37,12 +37,17 @@ async function NetworkPage({
   }
 
   // Fetch followers and following directly from the database
+  // On server components, we need absolute URLs
+  const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+  const host = process.env.VERCEL_URL || 'localhost:3000';
+  const baseUrl = `${protocol}://${host}`;
+
   const followersRes = await fetch(
-    `/api/followers?user_id=${userId}`,
+    `${baseUrl}/api/followers?user_id=${userId}`,
     { cache: "no-store" }
   );
   const followingRes = await fetch(
-    `/api/following?user_id=${userId}`,
+    `${baseUrl}/api/following?user_id=${userId}`,
     { cache: "no-store" }
   );
 
