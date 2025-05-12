@@ -13,6 +13,9 @@ const publicPaths = [
   '/admin-setup', // New simplified admin setup page
   '/role-selection', // Role selection page after registration
   '/api/users/check-role', // Role check API endpoint
+  '/network', // Network page to view connections
+  '/users', // Users page to find people
+  '/users/(.*)', // User profile pages
 ];
 
 export default authMiddleware({
@@ -38,21 +41,25 @@ export default authMiddleware({
       return NextResponse.next();
     }
     
-    // If the user is signed in, redirect to role check endpoint
+    // If the user is signed in, only check role for specific content creation paths
     if (auth.userId) {
-      // Skip role check for specified public paths
-      const isPublicPath = publicPaths.some(path => {
-        if (path === '/') {
-          return req.nextUrl.pathname === '/';
-        }
-        const basePath = path.split('(')[0];
-        return req.nextUrl.pathname.startsWith(basePath);
-      });
-      
-      if (!isPublicPath && req.nextUrl.pathname !== '/role-selection') {
+      // Define paths that require role selection
+      const roleRequiredPaths = [
+        '/posts/create', // hypothetical post creation path
+        '/jobs/create',  // hypothetical job creation path
+      ];
+
+      // Check if current path requires role
+      const requiresRole = roleRequiredPaths.some(path =>
+        req.nextUrl.pathname === path || req.nextUrl.pathname.startsWith(path + '/')
+      );
+
+      // Skip role check for all paths except those that explicitly require it
+      // This is a more targeted approach than checking all routes
+      if (requiresRole && req.nextUrl.pathname !== '/role-selection') {
         // Store the original URL to redirect back after role selection
         const originalUrl = req.nextUrl.pathname;
-        
+
         // Redirect to the role-check API
         const roleCheckUrl = new URL(`/api/users/check-role?redirect=${encodeURIComponent(originalUrl)}`, req.url);
         return NextResponse.redirect(roleCheckUrl);
