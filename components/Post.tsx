@@ -16,8 +16,16 @@ function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
 
   const isAuthor = user?.id === post.user.userId;
+  // Safe check for post type with fallback to 'normal'
+  const isJobPost = post.type === 'job';
+
   return (
-    <div className="bg-white rounded-md border">
+    <div className={`bg-white rounded-md border ${isJobPost ? 'border-blue-300 border-2' : ''}`}>
+      {isJobPost && (
+        <div className="bg-blue-500 text-white text-center py-1 font-medium">
+          Job Opportunity
+        </div>
+      )}
       <div className="p-4 flex space-x-2">
         <div>
           <Avatar>
@@ -36,6 +44,11 @@ function Post({ post }: { post: IPostDocument }) {
               {isAuthor && (
                 <Badge className="ml-2" variant="secondary">
                   Author
+                </Badge>
+              )}
+              {post.user.role && post.user.role === 'employer' && (
+                <Badge className="ml-2" variant="outline">
+                  Employer
                 </Badge>
               )}
             </p>
@@ -67,8 +80,21 @@ function Post({ post }: { post: IPostDocument }) {
         </div>
       </div>
 
-      <div className="">
-        <p className="px-4 pb-2 mt-2">{post.text}</p>
+      <div className={`${isJobPost ? 'bg-blue-50' : ''}`}>
+        {isJobPost ? (
+          <div className="px-4 pb-2 mt-2">
+            <h3 className="font-bold text-lg text-blue-800 mb-2">Job Description</h3>
+            <div className="job-description whitespace-pre-line">{post.text}</div>
+
+            <div className="mt-4 flex justify-end">
+              <Button variant="outline" className="bg-blue-100 text-blue-800 border-blue-300 hover:bg-blue-200">
+                Apply Now
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <p className="px-4 pb-2 mt-2">{post.text}</p>
+        )}
 
         {/* If image uploaded put it here... */}
         {post.imageUrl && (

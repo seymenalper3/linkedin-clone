@@ -11,6 +11,8 @@ const publicPaths = [
   '/admin/setup-direct', // Alternative admin setup page
   '/api/debug-admin', // Debug endpoint for admin creation
   '/admin-setup', // New simplified admin setup page
+  '/role-selection', // Role selection page after registration
+  '/api/users/check-role', // Role check API endpoint
 ];
 
 export default authMiddleware({
@@ -24,6 +26,37 @@ export default authMiddleware({
     // Admin panel routes - check if they are admin in the server component
     if (req.nextUrl.pathname.startsWith('/admin')) {
       return NextResponse.next();
+    }
+    
+    // Allow access to role selection page
+    if (req.nextUrl.pathname === '/role-selection') {
+      return NextResponse.next();
+    }
+    
+    // Allow access to API endpoints
+    if (req.nextUrl.pathname.startsWith('/api/')) {
+      return NextResponse.next();
+    }
+    
+    // If the user is signed in, redirect to role check endpoint
+    if (auth.userId) {
+      // Skip role check for specified public paths
+      const isPublicPath = publicPaths.some(path => {
+        if (path === '/') {
+          return req.nextUrl.pathname === '/';
+        }
+        const basePath = path.split('(')[0];
+        return req.nextUrl.pathname.startsWith(basePath);
+      });
+      
+      if (!isPublicPath && req.nextUrl.pathname !== '/role-selection') {
+        // Store the original URL to redirect back after role selection
+        const originalUrl = req.nextUrl.pathname;
+        
+        // Redirect to the role-check API
+        const roleCheckUrl = new URL(`/api/users/check-role?redirect=${encodeURIComponent(originalUrl)}`, req.url);
+        return NextResponse.redirect(roleCheckUrl);
+      }
     }
     
     // If the user is not signed in and the route is not public, redirect to sign-in

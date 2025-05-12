@@ -3,12 +3,15 @@ import mongoose, { Schema, Document, models, Model } from "mongoose";
 import { Comment, IComment, ICommentBase } from "./comment";
 import { IUser } from "@/types/user";
 
+export type PostType = 'normal' | 'job';
+
 export interface IPostBase {
   user: IUser;
   text: string;
   imageUrl?: string;
   comments?: IComment[];
   likes?: string[];
+  type?: PostType;
 }
 
 export interface IPost extends IPostBase, Document {
@@ -41,11 +44,13 @@ const PostSchema = new Schema<IPostDocument>(
       userImage: { type: String, required: true },
       firstName: { type: String, required: true },
       lastName: { type: String },
+      role: { type: String, enum: ['employee', 'employer'] },
     },
     text: { type: String, required: true },
     imageUrl: { type: String },
     comments: { type: [Schema.Types.ObjectId], ref: "Comment", default: [] },
     likes: { type: [String] },
+    type: { type: String, enum: ['normal', 'job'], default: 'normal' },
   },
   {
     timestamps: true,

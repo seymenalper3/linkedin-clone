@@ -3,6 +3,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { IPostDocument } from "@/mongodb/models/post";
 import { Button } from "./ui/button";
 import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { Badge } from "./ui/badge";
+import mongoose from "mongoose";
+import connectDB from "@/mongodb/db";
 
 async function UserInformation({ posts }: { posts: IPostDocument[] }) {
   const user = await currentUser();
@@ -10,6 +13,23 @@ async function UserInformation({ posts }: { posts: IPostDocument[] }) {
   const firstName = user?.firstName as string;
   const lastName = user?.lastName as string;
   const imageUrl = user?.imageUrl as string;
+
+  // Fetch user role from database if user is signed in
+  let userRole = null;
+  if (user?.id) {
+    try {
+      await connectDB();
+      const User = mongoose.models.User || mongoose.model('User', new mongoose.Schema({
+        userId: String,
+        role: String,
+      }));
+
+      const dbUser = await User.findOne({ userId: user.id });
+      userRole = dbUser?.role;
+    } catch (error) {
+      console.error("Error fetching user role:", error);
+    }
+  }
 
   const userPosts = posts?.filter((post) => post.user.userId === user?.id);
 
@@ -44,6 +64,12 @@ async function UserInformation({ posts }: { posts: IPostDocument[] }) {
             @{firstName}
             {lastName}-{user?.id?.slice(-4)}
           </p>
+
+          {userRole && (
+            <Badge className="mt-1" variant={userRole === 'employer' ? 'outline' : 'secondary'}>
+              {userRole === 'employer' ? 'Employer' : 'Employee'}
+            </Badge>
+          )}
         </div>
       </SignedIn>
 

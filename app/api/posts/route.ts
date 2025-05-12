@@ -7,19 +7,31 @@ export interface AddPostRequestBody {
   user: IUser;
   text: string;
   imageUrl?: string | null;
+  type?: 'normal' | 'job';
 }
 
 export async function POST(request: Request) {
   //  auth().protect();
-  const { user, text, imageUrl }: AddPostRequestBody = await request.json();
+  const { user, text, imageUrl, type }: AddPostRequestBody = await request.json();
 
   try {
     await connectDB();
+
+    // Validate the type if provided
+    const validType = type === 'job' || type === 'normal' || !type;
+
+    if (!validType) {
+      return NextResponse.json(
+        { error: "Invalid post type. Must be 'normal' or 'job'" },
+        { status: 400 }
+      );
+    }
 
     const postData: IPostBase = {
       user,
       text,
       ...(imageUrl && { imageUrl }),
+      ...(type && { type }),
     };
 
     const post = await Post.create(postData);
