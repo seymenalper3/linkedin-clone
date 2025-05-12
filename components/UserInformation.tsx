@@ -66,7 +66,7 @@ async function UserInformation({ posts }: { posts: IPostDocument[] }) {
           </p>
 
           {userRole && (
-            <Badge className="mt-2"
+            <Badge
               variant="outline"
               className={`mt-2 ${userRole === 'employer'
                 ? 'bg-secondary/10 text-secondary border-secondary/20'
