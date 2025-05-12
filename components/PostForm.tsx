@@ -55,12 +55,12 @@ function PostForm() {
             error: (e) => "Error creating post: " + e.message,
           });
         }}
-        className="p-3 bg-white rounded-lg border"
+        className="p-5 card"
       >
-        <div className="flex items-center space-x-2">
-          <Avatar>
+        <div className="flex items-center space-x-3">
+          <Avatar className="avatar-linkedin h-10 w-10">
             <AvatarImage src={user?.imageUrl} />
-            <AvatarFallback>
+            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
               {user?.firstName?.charAt(0)}
               {user?.lastName?.charAt(0)}
             </AvatarFallback>
@@ -70,7 +70,7 @@ function PostForm() {
             type="text"
             name="postInput"
             placeholder="Start writing a post..."
-            className="flex-1 outline-none rounded-full py-3 px-4 border"
+            className="flex-1 outline-none rounded-full py-2.5 px-4 border border-border bg-accent/50 placeholder:text-muted-foreground/70 text-sm"
           />
 
           {/* add input file selector for images only */}
@@ -89,7 +89,7 @@ function PostForm() {
         </div>
 
         {preview && (
-          <div className="mt-2 relative w-full h-64">
+          <div className="mt-4 relative w-full h-64 rounded-lg overflow-hidden border border-border">
             <Image
               src={preview}
               alt="Preview"
@@ -99,13 +99,15 @@ function PostForm() {
           </div>
         )}
 
-        <div className="flex justify-end mt-2">
+        <div className="flex justify-end mt-4">
           <Button
             type="button"
             onClick={() => fileInputRef.current?.click()}
             variant={preview ? "secondary" : "outline"}
+            className={preview ? "bg-accent text-accent-foreground" : ""}
+            size="sm"
           >
-            <ImageIcon className="mr-2" size={16} color="currentColor" />
+            <ImageIcon className="mr-2" size={16} />
             {preview ? "Change" : "Add"} image
           </Button>
 
@@ -115,16 +117,17 @@ function PostForm() {
               type="button"
               onClick={() => setPreview(null)}
               variant="outline"
-              className="ml-2"
+              size="sm"
+              className="ml-2 text-destructive/70 hover:text-destructive hover:bg-destructive/10"
             >
-              <XIcon className="mr-2" size={16} color="currentColor" />
+              <XIcon className="mr-2" size={16} />
               Remove image
             </Button>
           )}
         </div>
       </form>
 
-      <hr className="mt-2 border-gray-300" />
+      <div className="my-4"></div>
     </div>
   );
 }

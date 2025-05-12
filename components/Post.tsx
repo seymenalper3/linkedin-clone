@@ -20,17 +20,17 @@ function Post({ post }: { post: IPostDocument }) {
   const isJobPost = post.type === 'job';
 
   return (
-    <div className={`bg-white rounded-md border ${isJobPost ? 'border-blue-300 border-2' : ''}`}>
+    <div className={`post-card ${isJobPost ? 'border-secondary border-2' : ''}`}>
       {isJobPost && (
-        <div className="bg-blue-500 text-white text-center py-1 font-medium">
+        <div className="bg-secondary text-white text-center py-1.5 font-medium rounded-t-lg -mt-4 -mx-4 mb-3">
           Job Opportunity
         </div>
       )}
-      <div className="p-4 flex space-x-2">
+      <div className="flex space-x-3">
         <div>
-          <Avatar>
+          <Avatar className="avatar-linkedin h-12 w-12">
             <AvatarImage src={post.user.userImage} />
-            <AvatarFallback>
+            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
               {post.user.firstName?.charAt(0)}
               {post.user.lastName?.charAt(0)}
             </AvatarFallback>
@@ -39,32 +39,34 @@ function Post({ post }: { post: IPostDocument }) {
 
         <div className="flex justify-between flex-1">
           <div>
-            <p className="font-semibold">
+            <p className="font-semibold text-card-foreground/90">
               {post.user.firstName} {post.user.lastName}{" "}
               {isAuthor && (
-                <Badge className="ml-2" variant="secondary">
+                <Badge className="ml-1 bg-accent text-accent-foreground font-medium">
                   Author
                 </Badge>
               )}
               {post.user.role && post.user.role === 'employer' && (
-                <Badge className="ml-2" variant="outline">
+                <Badge className="ml-1 bg-secondary/10 text-secondary border-secondary/20 font-medium">
                   Employer
                 </Badge>
               )}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted-foreground">
               @{post.user.firstName}
               {post.user.firstName}-{post.user.userId.toString().slice(-4)}
             </p>
 
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted-foreground mt-1">
               <ReactTimeago date={new Date(post.createdAt)} />
             </p>
           </div>
 
           {isAuthor && (
             <Button
-              variant="outline"
+              variant="ghost"
+              size="sm"
+              className="text-destructive/70 hover:text-destructive hover:bg-destructive/10"
               onClick={() => {
                 const promise = deletePostAction(post._id);
                 toast.promise(promise, {
@@ -74,37 +76,39 @@ function Post({ post }: { post: IPostDocument }) {
                 });
               }}
             >
-              <Trash2 />
+              <Trash2 className="h-5 w-5" />
             </Button>
           )}
         </div>
       </div>
 
-      <div className={`${isJobPost ? 'bg-blue-50' : ''}`}>
+      <div className={`mt-3 ${isJobPost ? 'bg-accent rounded-md p-4' : ''}`}>
         {isJobPost ? (
-          <div className="px-4 pb-2 mt-2">
-            <h3 className="font-bold text-lg text-blue-800 mb-2">Job Description</h3>
-            <div className="job-description whitespace-pre-line">{post.text}</div>
+          <div>
+            <h3 className="font-bold text-lg text-primary mb-3">Job Description</h3>
+            <div className="job-description whitespace-pre-line text-card-foreground/80 text-sm leading-relaxed">{post.text}</div>
 
-            <div className="mt-4 flex justify-end">
-              <Button variant="outline" className="bg-blue-100 text-blue-800 border-blue-300 hover:bg-blue-200">
+            <div className="mt-5 flex justify-end">
+              <Button className="btn-linkedin">
                 Apply Now
               </Button>
             </div>
           </div>
         ) : (
-          <p className="px-4 pb-2 mt-2">{post.text}</p>
+          <p className="text-card-foreground/90 mt-1 leading-relaxed">{post.text}</p>
         )}
 
         {/* If image uploaded put it here... */}
         {post.imageUrl && (
-          <Image
-            src={post.imageUrl}
-            alt="Post Image"
-            width={500}
-            height={500}
-            className="w-full mx-auto"
-          />
+          <div className="mt-4 rounded-md overflow-hidden">
+            <Image
+              src={post.imageUrl}
+              alt="Post Image"
+              width={500}
+              height={500}
+              className="w-full mx-auto object-cover"
+            />
+          </div>
         )}
       </div>
 
