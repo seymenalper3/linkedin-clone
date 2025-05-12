@@ -1,6 +1,7 @@
 import connectDB from "@/mongodb/db";
 import { Post } from "@/mongodb/models/post";
 import { NextResponse } from "next/server";
+import { createNotification } from "@/lib/notificationService";
 
 export async function GET(
   request: Request,
@@ -45,6 +46,17 @@ export async function POST(
     }
 
     await post.likePost(userId);
+
+    // Create notification if the user isn't liking their own post
+    if (post.user.userId !== userId) {
+      await createNotification({
+        recipientId: post.user.userId,
+        senderId: userId,
+        type: 'like',
+        postId: params.post_id
+      });
+    }
+
     return NextResponse.json({ message: "Post liked successfully" });
   } catch (error) {
     return NextResponse.json(

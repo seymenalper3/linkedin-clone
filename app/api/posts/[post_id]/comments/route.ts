@@ -3,6 +3,7 @@ import { ICommentBase } from "@/mongodb/models/comment";
 import { Post } from "@/mongodb/models/post";
 import { IUser } from "@/types/user";
 import { NextResponse } from "next/server";
+import { createNotification } from "@/lib/notificationService";
 
 export async function GET(
   request: Request,
@@ -50,6 +51,17 @@ export async function POST(
     };
 
     await post.commentOnPost(comment);
+
+    // Create notification if the user isn't commenting on their own post
+    if (post.user.userId !== user.userId) {
+      await createNotification({
+        recipientId: post.user.userId,
+        senderId: user.userId,
+        type: 'comment',
+        postId: params.post_id
+      });
+    }
+
     return NextResponse.json({ message: "Comment added successfully" });
   } catch (error) {
     return NextResponse.json(

@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import NotificationIcon from "./NotificationIcon";
 
 async function Header() {
   return (
@@ -57,6 +58,7 @@ async function Header() {
         </Link>
 
         <SignedIn>
+          <NotificationIcon />
           <UserButton />
         </SignedIn>
 

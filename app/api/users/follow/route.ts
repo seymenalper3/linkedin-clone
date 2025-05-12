@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import connectDB from "@/mongodb/db";
 import { Followers } from "@/mongodb/models/followers";
+import { createNotification } from "@/lib/notificationService";
 
 // POST function is used to follow a user
 export async function POST(request: Request) {
@@ -50,6 +51,13 @@ export async function POST(request: Request) {
     await Followers.create({
       follower: userId,
       following: targetUserId,
+    });
+
+    // Create notification for the target user
+    await createNotification({
+      recipientId: targetUserId,
+      senderId: userId,
+      type: 'follow'
     });
 
     return NextResponse.json({ success: true, message: "Successfully followed user" });
