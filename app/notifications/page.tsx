@@ -26,7 +26,8 @@ async function NotificationsPage() {
   const notifications = await Notification.getUserNotifications(userId, 50);
 
   // Get sender details for each notification
-  const senderIds = [...new Set(notifications.map(n => n.senderId))];
+  const senderIdsSet = new Set(notifications.map(n => n.senderId));
+  const senderIds = Array.from(senderIdsSet);
   
   const sendersData: Record<string, any> = {};
   
