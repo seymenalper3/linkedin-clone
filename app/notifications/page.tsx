@@ -1,4 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { clerkClient } from "@clerk/nextjs/server";
 import connectDB from "@/mongodb/db";
 import { Notification, INotification } from "@/mongodb/models/notification";
 import { redirect } from "next/navigation";
@@ -7,7 +8,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { BellOff, UserPlus, ThumbsUp, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
-import { clerkClient } from "@clerk/nextjs";
 
 export const dynamic = "force-dynamic";
 
@@ -90,7 +90,7 @@ async function NotificationsPage() {
           <BellOff className="h-10 w-10 mx-auto text-gray-400 mb-2" />
           <h3 className="text-xl font-semibold text-gray-700">No notifications yet</h3>
           <p className="text-gray-500 mt-1">
-            When people interact with you or your posts, you'll see it here.
+            When people interact with you or your posts, you&apos;ll see it here.
           </p>
           
           <div className="mt-6">

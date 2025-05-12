@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { BellIcon } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { useUser } from "@clerk/nextjs";
@@ -14,30 +14,30 @@ export default function NotificationIcon() {
   const router = useRouter();
 
   // Fetch unread notifications count
-  const fetchUnreadCount = async () => {
+  const fetchUnreadCount = useCallback(async () => {
     if (!isSignedIn) return;
 
     try {
       const response = await fetch("/api/notifications?limit=1");
       if (!response.ok) throw new Error("Failed to fetch notifications");
-      
+
       const data = await response.json();
       setUnreadCount(data.unreadCount || 0);
     } catch (error) {
       console.error("Error fetching unread count:", error);
     }
-  };
+  }, [isSignedIn]);
 
   // Fetch unread count when component mounts and when user changes
   useEffect(() => {
     if (isSignedIn) {
       fetchUnreadCount();
-      
+
       // Refresh notifications every 30 seconds
       const interval = setInterval(fetchUnreadCount, 30000);
       return () => clearInterval(interval);
     }
-  }, [isSignedIn, user?.id]);
+  }, [isSignedIn, user?.id, fetchUnreadCount]);
 
   // Toggle dropdown
   const toggleDropdown = () => {

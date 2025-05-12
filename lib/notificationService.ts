@@ -2,7 +2,7 @@
 
 import { Notification, NotificationType } from "@/mongodb/models/notification";
 import connectDB from "@/mongodb/db";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 
 // Helper function to create notification
 export async function createNotification({
