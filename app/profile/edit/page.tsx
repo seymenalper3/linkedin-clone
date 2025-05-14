@@ -19,9 +19,9 @@ export default async function ProfileEditPage() {
   // Get user's profile data
   let profile = await Profile.findOne({ userId });
   
-  // If no profile exists, create a blank one
+  // If no profile exists, create a blank one with correct type
   if (!profile) {
-    profile = {
+    profile = new Profile({
       userId,
       headline: "",
       about: "",
@@ -30,7 +30,8 @@ export default async function ProfileEditPage() {
       education: [],
       experience: [],
       skills: []
-    };
+    });
+    // Don't save yet - will be handled when user submits the form
   }
   
   return (
