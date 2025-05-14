@@ -7,7 +7,9 @@ Modern bir sosyal ağ ve profesyonel iş platformu klonu. Next.js, TypeScript, M
 - **Kullanıcı Yetkilendirme ve Profiller**
   - Clerk Authentication ile güvenli oturum yönetimi
   - Rol tabanlı sistem (İşveren ve Çalışan)
-  - Kullanıcı profilleri ve bilgilerini düzenleme
+  - Kapsamlı kullanıcı profilleri (eğitim, deneyim, beceriler)
+  - Profil düzenleme ve yönetim sistemi
+  - Kullanıcı arama ve otomatik tamamlama
 
 - **Sosyal Medya İşlevleri**
   - Gönderi oluşturma, düzenleme ve silme
@@ -16,14 +18,19 @@ Modern bir sosyal ağ ve profesyonel iş platformu klonu. Next.js, TypeScript, M
   - Gönderi yorum sistemi
   - Kullanıcıları takip etme
 
-- **İş İlanları**
+- **İş İlanları ve Başvurular**
   - İş ilanı türünde gönderiler oluşturabilme
   - İlanları filtreleme ve görüntüleme
+  - İş ilanlarına başvuru sistemi
+  - Başvuruları yönetme ve takip etme
+  - İşverenler için başvuru bildirimleri
 
 - **Bildirim Sistemi**
   - Gerçek zamanlı bildirimler
   - Beğeni, yorum ve takip bildirimleri
+  - İş başvurusu bildirimleri
   - Okunmuş/okunmamış bildirim yönetimi
+  - Bildirim sayacı ve gruplandırma
 
 - **Admin Paneli**
   - Kullanıcı yönetimi ve engelleyebilme
@@ -89,12 +96,26 @@ Modern bir sosyal ağ ve profesyonel iş platformu klonu. Next.js, TypeScript, M
 - **UserInformation**: Kullanıcı profil bilgilerini görüntüler
 - **NotificationDropdown**: Bildirim menüsü
 - **FollowButton**: Kullanıcı takip etme düğmesi
+- **ApplyJobButton**: İş ilanlarına başvuru düğmesi
+- **SearchBar**: Kullanıcı arama ve otomatik tamamlama
+- **PublicProfile**: Kapsamlı kullanıcı profil görünümü
 
 ## 👩‍💻 Kullanıcı Rolleri
 
-- **Employee (Çalışan)**: Normal gönderiler oluşturabilir
-- **Employer (İşveren)**: İş ilanı gönderileri oluşturabilir
-- **Admin**: Moderasyon yetkileri, kullanıcı yönetimi ve platform ayarları
+- **Employee (Çalışan)**: 
+  - Normal gönderiler oluşturabilir
+  - İş ilanlarına başvurabilir
+  - Profil bilgilerini (eğitim, deneyim, beceriler) düzenleyebilir
+
+- **Employer (İşveren)**: 
+  - İş ilanı gönderileri oluşturabilir
+  - Başvuruları görüntüleyebilir ve yönetebilir
+  - Başvuru bildirimleri alabilir
+
+- **Admin**: 
+  - Moderasyon yetkileri
+  - Kullanıcı yönetimi ve engelleyebilme
+  - Platform ayarları ve içerik denetimi
 
 ## 🌐 API Rotaları
 
@@ -103,6 +124,12 @@ Modern bir sosyal ağ ve profesyonel iş platformu klonu. Next.js, TypeScript, M
 - **/api/posts/[post_id]/like**: Beğeni işlemleri
 - **/api/followers**: Takip işlemleri
 - **/api/notifications**: Bildirim işlemleri
+- **/api/profile**: Profil CRUD işlemleri
+- **/api/profile/education**: Eğitim bilgileri yönetimi
+- **/api/profile/experience**: Deneyim bilgileri yönetimi
+- **/api/profile/skills**: Beceri bilgileri yönetimi
+- **/api/users/search**: Kullanıcı arama API'si
+- **/api/applications**: İş başvuruları işlemleri
 - **/api/admin**: Admin panel API rotaları
 
 ## 📱 Responsive Tasarım
