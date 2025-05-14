@@ -2,10 +2,11 @@ import mongoose, { Schema, Document, Model, models } from "mongoose";
 
 // Define notification types
 export type NotificationType = 
-  | 'follow'       // Someone followed the user
-  | 'like'         // Someone liked the user's post
-  | 'comment'      // Someone commented on the user's post
-  | 'job';         // Job matching user's interests (for future use)
+  | 'follow'           // Someone followed the user
+  | 'like'             // Someone liked the user's post
+  | 'comment'          // Someone commented on the user's post
+  | 'job'              // Job matching user's interests
+  | 'job_application'; // Someone applied to a job posting
 
 export interface INotificationBase {
   recipientId: string;        // User ID of notification recipient
@@ -41,12 +42,13 @@ const NotificationSchema = new Schema<INotification>(
     type: { 
       type: String, 
       required: true,
-      enum: ['follow', 'like', 'comment', 'job'] 
+      enum: ['follow', 'like', 'comment', 'job', 'job_application'] 
     },
     read: { type: Boolean, default: false },
     content: { type: String, required: true },
     postId: { type: String },
     commentId: { type: String },
+    applicationId: { type: String },
   },
   {
     timestamps: true,

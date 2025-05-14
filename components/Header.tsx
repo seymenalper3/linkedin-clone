@@ -10,6 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import NotificationIcon from "./NotificationIcon";
+import EmployerLinks from "./EmployerLinks";
 
 async function Header() {
   return (
@@ -58,6 +59,9 @@ async function Header() {
         </Link>
 
         <SignedIn>
+          <div id="employer-links">
+            <EmployerLinks />
+          </div>
           <NotificationIcon />
           <div className="ml-2">
             <UserButton afterSignOutUrl="/" />

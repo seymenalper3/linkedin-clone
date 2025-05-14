@@ -36,6 +36,9 @@ export async function POST(req: NextRequest) {
         { status: 400, headers: corsHeaders }
       );
     }
+    
+    // Default to 'employee' if no role provided
+    const userRole = role || 'employee';
 
     // Connect to the database
     await connectDB();
@@ -53,7 +56,7 @@ export async function POST(req: NextRequest) {
       { userId },
       { 
         userId, 
-        role,
+        role: userRole,
         updatedAt: new Date()
       },
       { upsert: true, new: true }

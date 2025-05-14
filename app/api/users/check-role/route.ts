@@ -1,12 +1,12 @@
 import connectDB from "@/mongodb/db";
-import mongoose from "mongoose";
 import { auth } from "@clerk/nextjs/server";
-import { NextRequest, NextResponse } from "next/server";
+import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 
-// Add CORS headers to prevent CORS issues
+// Add CORS headers
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
@@ -15,48 +15,40 @@ export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function GET(request: NextRequest) {
-  const { userId } = auth();
-
-  // Add CORS headers to response
-  const response = {
-    headers: corsHeaders,
-  };
-
-  if (!userId) {
-    // Redirect to home if no user
-    return NextResponse.redirect(new URL("/", request.url), response);
-  }
-
-  // Get the redirect URL from query params
-  const redirectUrl = request.nextUrl.searchParams.get("redirect") || "/";
-  
+export async function GET() {
   try {
-    // Connect to DB
+    const { userId } = auth();
+    
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Unauthorized" },
+        { status: 401, headers: corsHeaders }
+      );
+    }
+    
+    // Connect to the database
     await connectDB();
-
-    // Set up User model
+    
+    // Dynamically define User model if it doesn't exist
     const User = mongoose.models.User || mongoose.model('User', new mongoose.Schema({
       userId: String,
       role: String,
+      createdAt: { type: Date, default: Date.now },
+      updatedAt: { type: Date, default: Date.now }
     }));
-
-    // Check if user has a role
+    
+    // Find user by Clerk ID
     const user = await User.findOne({ userId });
-
-    // Validate that the role is valid if it exists
-    const validRole = user?.role === 'employee' || user?.role === 'employer';
-
-    if (!user || !user.role || !validRole) {
-      // If no role is set or it's invalid, redirect to role selection
-      return NextResponse.redirect(new URL("/role-selection", request.url), response);
-    }
-
-    // If user has a valid role, redirect to original destination
-    return NextResponse.redirect(new URL(redirectUrl, request.url), response);
+    
+    // If user doesn't exist, default role is 'employee'
+    const role = user?.role || 'employee';
+    
+    return NextResponse.json({ role }, { headers: corsHeaders });
   } catch (error) {
     console.error("Error checking user role:", error);
-    // In case of error, redirect to role selection to be safe
-    return NextResponse.redirect(new URL("/role-selection", request.url), response);
+    return NextResponse.json(
+      { message: "Failed to check user role" },
+      { status: 500, headers: corsHeaders }
+    );
   }
 }

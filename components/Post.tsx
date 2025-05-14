@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import ReactTimeago from "react-timeago";
 import { Badge } from "./ui/badge";
 import { toast } from "sonner";
+import ApplyJobButton from "./ApplyJobButton";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -89,9 +90,9 @@ function Post({ post }: { post: IPostDocument }) {
             <div className="job-description whitespace-pre-line text-card-foreground/80 text-sm leading-relaxed">{post.text}</div>
 
             <div className="mt-5 flex justify-end">
-              <Button className="btn-linkedin">
-                Apply Now
-              </Button>
+              {user && user.id !== post.user.userId && (
+                <ApplyJobButton postId={post._id} employer={post.user} />
+              )}
             </div>
           </div>
         ) : (
