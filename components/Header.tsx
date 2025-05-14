@@ -1,3 +1,5 @@
+"use client";
+
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import {
   Briefcase,
@@ -11,8 +13,6 @@ import { Button } from "./ui/button";
 import NotificationIcon from "./NotificationIcon";
 import EmployerLinks from "./EmployerLinks";
 import SearchBar from "./SearchBar";
-
-"use client";
 
 function Header() {
   return (

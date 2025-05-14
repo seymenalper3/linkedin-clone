@@ -5,7 +5,7 @@ import { SearchIcon, X } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useOnClickOutside } from "@/lib/utils";
+import { useOnClickOutside } from "@/lib/hooks";
 
 interface User {
   id: string;
