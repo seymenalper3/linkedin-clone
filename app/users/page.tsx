@@ -59,7 +59,7 @@ async function UsersPage({ searchParams }: { searchParams: { search?: string } }
       
       {searchQuery && otherUsers.length === 0 ? (
         <div className="text-center py-16">
-          <p className="text-muted-foreground mb-4">No users found matching "{searchQuery}"</p>
+          <p className="text-muted-foreground mb-4">No users found matching &quot;{searchQuery}&quot;</p>
           <Link href="/users">
             <Button variant="outline">Clear Search</Button>
           </Link>
