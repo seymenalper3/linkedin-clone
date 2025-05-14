@@ -43,9 +43,9 @@ export default async function UserProfilePage({
     }
     
     // Try to get data from MongoDB first to work around Clerk issues
-    let userData;
-    let userPosts = [];
-    let userProfile;
+    let userData: { id: string; firstName: string; lastName: string; imageUrl: string } | undefined;
+    let userPosts: any[] = [];
+    let userProfile: any;
 
     // Get user's posts - this will give us basic user info even if Clerk fails
     try {
