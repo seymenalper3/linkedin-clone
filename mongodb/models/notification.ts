@@ -16,6 +16,7 @@ export interface INotificationBase {
   content: string;            // Notification message
   postId?: string;            // Optional: related post ID (for likes, comments)
   commentId?: string;         // Optional: related comment ID
+  applicationId?: string;     // Optional: related job application ID
 }
 
 // Document interface
