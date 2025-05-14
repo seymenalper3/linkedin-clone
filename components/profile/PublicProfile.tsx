@@ -211,8 +211,7 @@ export default function PublicProfile({
             <TabsContent value="posts">
               {posts && posts.length > 0 ? (
                 <PostFeed 
-                  initialPosts={posts}
-                  emptyMessage={`${user.firstName} hasn&apos;t posted anything yet`}
+                  posts={posts}
                 />
               ) : (
                 <div className="bg-card border rounded-lg p-8 text-center">
