@@ -143,7 +143,7 @@ export default function ApplicationsList({ employerId }: ApplicationsListProps) 
       <div className="text-center py-12 border rounded-lg bg-accent/5">
         <h3 className="text-xl font-medium mb-2">No applications yet</h3>
         <p className="text-muted-foreground">
-          You haven't received any applications for your job listings yet.
+          You have not received any applications for your job listings yet.
         </p>
       </div>
     );
