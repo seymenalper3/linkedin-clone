@@ -26,9 +26,12 @@ export async function GET(request: NextRequest) {
     }
     
     // Get all users from Clerk
-    const users = await clerkClient.users.getUserList({
+    const usersResponse = await clerkClient.users.getUserList({
       limit: 50,
     });
+    
+    // Make sure we have an array of users to work with
+    const users = Array.isArray(usersResponse) ? usersResponse : (usersResponse.data || []);
     
     // Filter users based on query (case-insensitive)
     const lowercaseQuery = query.toLowerCase();
