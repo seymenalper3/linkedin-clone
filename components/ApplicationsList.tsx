@@ -78,11 +78,13 @@ export default function ApplicationsList({ employerId }: ApplicationsListProps) 
           const postsData: Record<string, IPostDocument> = {};
           
           for (const postId of postIds) {
-            const postRes = await fetch(`/api/posts/${postId}`);
-            if (postRes.ok) {
-              const postData = await postRes.json();
-              if (postData.post) {
-                postsData[postId] = postData.post;
+            if (typeof postId === 'string') {
+              const postRes = await fetch(`/api/posts/${postId}`);
+              if (postRes.ok) {
+                const postData = await postRes.json();
+                if (postData.post) {
+                  postsData[postId] = postData.post;
+                }
               }
             }
           }
