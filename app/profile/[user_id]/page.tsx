@@ -2,7 +2,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 import connectDB from "@/mongodb/db";
 import { Profile } from "@/mongodb/models/profile";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs/server";
 import PublicProfile from "@/components/profile/PublicProfile";
 import { Post } from "@/mongodb/models/post";
 import { Button } from "@/components/ui/button";

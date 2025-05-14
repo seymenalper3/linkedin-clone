@@ -212,12 +212,12 @@ export default function PublicProfile({
               {posts && posts.length > 0 ? (
                 <PostFeed 
                   initialPosts={posts}
-                  emptyMessage={`${user.firstName} hasn't posted anything yet`}
+                  emptyMessage={`${user.firstName} hasn&apos;t posted anything yet`}
                 />
               ) : (
                 <div className="bg-card border rounded-lg p-8 text-center">
                   <p className="text-muted-foreground">
-                    {user.firstName} hasn't posted anything yet
+                    {user.firstName} hasn&apos;t posted anything yet
                   </p>
                 </div>
               )}
