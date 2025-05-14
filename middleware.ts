@@ -16,6 +16,7 @@ const publicPaths = [
   '/network', // Network page to view connections
   '/users', // Users page to find people
   '/users/(.*)', // User profile pages
+  '/users/profile/(.*)', // Alternative user profile pages
   '/profile/(.*)', // User profile pages
   '/profile/edit', // Profile edit page
 ];
