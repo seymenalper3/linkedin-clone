@@ -125,7 +125,7 @@ export async function PUT(
     
     // Update the experience entry
     profile.experience[experienceIndex] = {
-      ...profile.experience[experienceIndex].toObject(),
+      ...profile.experience[experienceIndex],  // Just use the object directly
       ...updatedExperience
     };
     

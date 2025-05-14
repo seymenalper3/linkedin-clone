@@ -125,7 +125,7 @@ export async function PUT(
     
     // Update the education entry
     profile.education[educationIndex] = {
-      ...profile.education[educationIndex].toObject(),
+      ...profile.education[educationIndex],  // Just use the object directly
       ...updatedEducation
     };
     
