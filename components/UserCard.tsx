@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { useUser } from "@clerk/nextjs";
-// Removed problematic import
 import { Loader2, MessageSquare, UserPlus, UserMinus } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface UserCardProps {
   userId: string;
@@ -118,17 +118,21 @@ const UserCard = ({ userId, relationship }: UserCardProps) => {
 
   return (
     <div className="p-4 border rounded-lg shadow-sm bg-white flex items-start gap-4">
-      <Avatar className="h-12 w-12">
-        <AvatarImage src={profile.imageUrl} />
-        <AvatarFallback>
-          {profile.firstName?.[0]}
-          {profile.lastName?.[0]}
-        </AvatarFallback>
-      </Avatar>
+      <Link href={`/profile/${userId}`}>
+        <Avatar className="h-12 w-12 cursor-pointer hover:opacity-90 transition-opacity">
+          <AvatarImage src={profile.imageUrl} />
+          <AvatarFallback>
+            {profile.firstName?.[0]}
+            {profile.lastName?.[0]}
+          </AvatarFallback>
+        </Avatar>
+      </Link>
       
       <div className="flex-1">
         <h3 className="font-medium text-gray-900">
-          {profile.firstName} {profile.lastName}
+          <Link href={`/profile/${userId}`} className="hover:underline">
+            {profile.firstName} {profile.lastName}
+          </Link>
         </h3>
         <p className="text-sm text-gray-500">@{profile.firstName?.toLowerCase()}{profile.lastName?.toLowerCase()}-{userId.slice(-4)}</p>
         

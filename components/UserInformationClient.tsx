@@ -8,6 +8,7 @@ import { Badge } from "./ui/badge";
 import { UserRole } from "@/types/user";
 import { IPostDocument } from "@/mongodb/models/post";
 import RoleChangeModal from "./RoleChangeModal";
+import Link from "next/link";
 
 // Interface for Clerk user
 interface ClerkUser {
@@ -166,6 +167,15 @@ export default function UserInformationClient({ posts }: { posts: IPostDocument[
         <p className="font-medium text-muted-foreground">Network</p>
         <p className="text-primary font-semibold">
           <a href="/network" className="hover:underline">View</a>
+        </p>
+      </div>
+
+      <div className="flex justify-between w-full px-1 text-sm py-1.5">
+        <p className="font-medium text-muted-foreground">Profile</p>
+        <p className="text-primary font-semibold">
+          {user?.id && (
+            <Link href={`/profile/edit`} className="hover:underline">Edit</Link>
+          )}
         </p>
       </div>
     </div>

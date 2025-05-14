@@ -12,6 +12,7 @@ import ReactTimeago from "react-timeago";
 import { Badge } from "./ui/badge";
 import { toast } from "sonner";
 import ApplyJobButton from "./ApplyJobButton";
+import Link from "next/link";
 
 function Post({ post }: { post: IPostDocument }) {
   const { user } = useUser();
@@ -29,19 +30,23 @@ function Post({ post }: { post: IPostDocument }) {
       )}
       <div className="flex space-x-3">
         <div>
-          <Avatar className="avatar-linkedin h-12 w-12">
-            <AvatarImage src={post.user.userImage} />
-            <AvatarFallback className="bg-primary/10 text-primary font-semibold">
-              {post.user.firstName?.charAt(0)}
-              {post.user.lastName?.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
+          <Link href={`/profile/${post.user.userId}`}>
+            <Avatar className="avatar-linkedin h-12 w-12 cursor-pointer hover:opacity-90 transition-opacity">
+              <AvatarImage src={post.user.userImage} />
+              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                {post.user.firstName?.charAt(0)}
+                {post.user.lastName?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          </Link>
         </div>
 
         <div className="flex justify-between flex-1">
           <div>
             <p className="font-semibold text-card-foreground/90">
-              {post.user.firstName} {post.user.lastName}{" "}
+              <Link href={`/profile/${post.user.userId}`} className="hover:underline">
+                {post.user.firstName} {post.user.lastName}
+              </Link>{" "}
               {isAuthor && (
                 <Badge className="ml-1 bg-accent text-accent-foreground font-medium">
                   Author
