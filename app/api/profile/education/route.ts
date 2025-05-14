@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       { 
         success: true,
-        education: profile.education 
+        education: profile.education || [] 
       },
       { headers: corsHeaders }
     );

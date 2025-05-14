@@ -104,9 +104,9 @@ export async function PUT(
     // Find the user's profile
     const profile = await Profile.findOne({ userId });
     
-    if (!profile) {
+    if (!profile || !profile.experience) {
       return NextResponse.json(
-        { message: "Profile not found" },
+        { message: "Profile or experience entries not found" },
         { status: 404, headers: corsHeaders }
       );
     }
