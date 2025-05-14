@@ -3,7 +3,6 @@ import {
   Briefcase,
   HomeIcon,
   MessagesSquare,
-  SearchIcon,
   UsersIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -11,8 +10,11 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import NotificationIcon from "./NotificationIcon";
 import EmployerLinks from "./EmployerLinks";
+import SearchBar from "./SearchBar";
 
-async function Header() {
+"use client";
+
+function Header() {
   return (
     <div className="flex items-center py-2.5 px-4 max-w-6xl mx-auto">
       {/* Logo */}
@@ -25,17 +27,7 @@ async function Header() {
       />
 
       {/* Search */}
-      {/* SearchIcon */}
-      <div className="flex-1">
-        <form className="flex items-center space-x-2 bg-accent p-2.5 rounded-full flex-1 mx-3 max-w-96 border border-border">
-          <SearchIcon className="h-4 w-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="bg-transparent flex-1 outline-none text-sm"
-          />
-        </form>
-      </div>
+      <SearchBar />
 
       <div className="flex items-center space-x-2">
         <Link href="/" className="icon px-3 py-1.5">
