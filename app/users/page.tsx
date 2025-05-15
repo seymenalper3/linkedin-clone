@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { SearchIcon, UserPlus } from "lucide-react";
+import FollowButton from "@/components/FollowButton";
 
 async function UsersPage({ searchParams }: { searchParams: { search?: string } }) {
   const { userId } = auth();
@@ -84,12 +85,7 @@ async function UsersPage({ searchParams }: { searchParams: { search?: string } }
               <Link href={`/profile/${otherUser.id}`}>
                 <Button variant="outline">View Profile</Button>
               </Link>
-              <Link href={`/network?connectWith=${otherUser.id}`}>
-                <Button className="bg-[#0B63C4]">
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Connect
-                </Button>
-              </Link>
+              <FollowButton targetUserId={otherUser.id} isFollowing={false} />
             </div>
           </div>
         ))}
